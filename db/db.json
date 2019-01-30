@@ -2,9 +2,9 @@
   "posts": [
     {
       "id": 1,
-      "title": "asaas",
-      "poster": "asasas",
-      "content": "asasasa"
+      "title": "x",
+      "poster": "x",
+      "content": "x"
     },
     {
       "id": 2,
@@ -616,8 +616,8 @@
   "comments": [
     {
       "id": 1,
-      "content": "z",
-      "post_id": "z"
+      "content": "zz",
+      "post_id": "zz"
     },
     {
       "id": 2,
@@ -671,8 +671,8 @@
     },
     {
       "id": 12,
-      "content": "Lorem ipsum",
-      "post_id": 8
+      "content": "z",
+      "post_id": "10"
     },
     {
       "id": 13,
@@ -1123,13 +1123,18 @@
       "id": 102,
       "content": "x",
       "post_id": "x"
+    },
+    {
+      "content": "2",
+      "post_id": "2",
+      "id": 103
     }
   ],
   "users": [
     {
       "id": 1,
-      "user_name": "",
-      "full_name": ""
+      "user_name": "z",
+      "full_name": "z"
     },
     {
       "id": 2,
@@ -1701,6 +1706,11 @@
       "id": 118,
       "user_name": "XXX",
       "full_name": "XYXY"
+    },
+    {
+      "user_name": "1",
+      "full_name": "1",
+      "id": 119
     }
   ]
 }

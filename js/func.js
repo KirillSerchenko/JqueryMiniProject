@@ -1,8 +1,8 @@
 import { backdrop,commentForm,postForm,userForm,injectData} from './templates.js'
 import {postRequest} from './serverApi.js'
 
-
 (() => {
+    //--------------------------------Create Accordions-------------------------------------------
     function createAccordionTemplate() {
         for (const i of [3, 4, 5]) {
             $(".row").append(
@@ -17,7 +17,7 @@ import {postRequest} from './serverApi.js'
     </div>`)
     }
 }
-//------------------------------------END Create of Accordion Template------------------ 
+//------------------------------------END Create of Accordion Template-----------------------------
 
 //-----------------------------------Init Accordions properties-------------------------------------
 function initAccordion() {
@@ -80,7 +80,8 @@ async function doAjax(){
      arr.push(posts.map(obj => new Post(obj)))
      const comments =await $.getJSON("http://localhost:3000/comments")
      arr.push(comments.map(obj => new Comment(obj)))
-     injectData(arr)
+    
+    injectData(arr)
 
     
     //----Add event to edit button------------------------------------------------------------------------------------------------------
@@ -145,54 +146,50 @@ async function doAjax(){
    doAjax()
    createAccordionTemplate()
    initAccordion()
-//-----------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------
 
-//--------------------ADD events-To main accordions headers (cahnge styled class)-----------------------------------------------------------------
+//ADD events-To main accordions headers (cahnge styled class)---------------------------------
     $('.myheader').click(function () {
         $(this).hasClass("myheader-red") ? $(this).removeClass("myheader-red").addClass("myheader-blue") :
         $(this).removeClass("myheader-blue").addClass("myheader-red")
     })
-//----------------------------END---------------------------------------------------------------------------------------------------------
+//----------------------------END-------------------------------------------------------------
 
-
-
-//------ADD User---------------------------------------------------------------------------------------------------------------------------
-    $('#addUser').click(function(){
+//--------------------------------------------------------------------------------------------
+    function clickHandler(buttonType){
         $('body').append(backdrop())
-        $('#form').append(userForm())
-        $("#close").click(function(){$(this).parent().remove()})
-        $("#postU").click(function(){
-            const user_name=$(this).prev().prev().children().next()["0"].value
-            const full_name=$(this).prev().children().next()["0"].value
-            postRequest(`http://localhost:3000/users`,{user_name,full_name})
-        })
-    })
-//-----------------------------------------------------------------------------------------------------------------------------------------
 
-//------ADD Post-------------------------------------------------------------------------------------------------------------------------------
-    $('#addPost').click(function(){
-        $('body').append(backdrop())
-        $('#form').append(postForm())
+        if(buttonType=="postU")
+            $('#form').append(userForm())
+        else if(buttonType=="postC")
+            $('#form').append(postForm())
+        else
+            $('#form').append(commentForm())
+        
         $("#close").click(function(){$(this).parent().remove()})
-        $("#postC").click(function(){
+        
+        $(`#${buttonType}`).click(function(){
+            if(buttonType=="postU"){
+                const user_name=$(this).prev().prev().children().next()["0"].value
+                const full_name=$(this).prev().children().next()["0"].value
+                postRequest(`http://localhost:3000/users`,{user_name,full_name})
+            }
+            else if(buttonType=="postC"){
                 const title=$(this).prev().prev().prev().children().next()["0"].value
                 const poster=$(this).prev().prev().children().next()["0"].value
                 const content=$(this).prev().children().next()["0"].value
-                postRequest(`http://localhost:3000/posts`,{title,poster,content})            
-                })
-            })
-//--------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-//------ADD Comment------------------------------------------------------------------------------------------------------------------------------
-    $('#addComment').click(function(){
-        $('body').append(backdrop())
-        $('#form').append(commentForm())
-        $("#close").click(function(){$(this).parent().remove()})
-        $("#postP").click(function(){
-                    const content=$(this).prev().prev().children().next()["0"].value
-                    const post_id=$(this).prev().children().next()["0"].value
-                    postRequest(`http://localhost:3000/comments`,{content,post_id}) 
-                })
-            })
+                postRequest(`http://localhost:3000/posts`,{title,poster,content})     
+            }
+            else{
+                const content=$(this).prev().prev().children().next()["0"].value
+                const post_id=$(this).prev().children().next()["0"].value
+                postRequest(`http://localhost:3000/comments`,{content,post_id})
+            }
+        })
+    }
+//------ADD User,Post,Comment--------------------------------------------------------------------
+    $('#addUser').click(function(){clickHandler("postU")})
+    $('#addPost').click(function(){clickHandler("postC")})
+    $('#addComment').click(function(){clickHandler("postP")}) 
+//-----------------------------------------------------------------------------------------------
 })()
