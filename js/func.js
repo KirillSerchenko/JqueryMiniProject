@@ -117,7 +117,7 @@ async function doAjax(){
                 url = 'users'
                 data = {
                     id: postId,
-                    user_name: $('#accordion00')["0"].value,
+                    user_name: $('#accordion00')["0"].value, //TODO: Why the number is string?
                     full_name: $('#accordion01')["0"].value
                 }
             }else if (accordion == "accordion1") {
@@ -159,6 +159,7 @@ async function doAjax(){
     function clickHandler(buttonType){
         $('body').append(backdrop())
 
+        //TODO: Always use curely brackets
         if(buttonType=="postU")
             $('#form').append(userForm())
         else if(buttonType=="postC")
